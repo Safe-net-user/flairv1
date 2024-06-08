@@ -87,7 +87,7 @@ export default function ServicesTab() {
           <br />
           <div style={{ width: '150px' }}>
             <FormControl fullWidth size="small">
-              <InputLabel id="demo-simple-select-label">Trier</InputLabel>
+              <InputLabel id="demo-simple-select-label">Trfghjker</InputLabel>
               <Select value={sortOption} label="Trier" onChange={handleSortChange}>
                 <MenuItem value={'recent'}>Récent</MenuItem>
                 <MenuItem value={'a-z'}>Titre A-Z</MenuItem>
