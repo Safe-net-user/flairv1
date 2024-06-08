@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
 
     console.log('Service créé:', service);
 
-    // Réponse avec le service créé
     const test =  NextResponse.json(service, { status: 200 });
     console.log('Service créé:', test);
     return test
