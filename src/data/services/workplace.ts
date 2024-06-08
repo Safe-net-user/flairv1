@@ -1,29 +1,29 @@
 'use server';
 
-import type { Workplace } from '@prisma/client';
+import type { Post } from '@prisma/client';
 
 import { prisma } from '@/lib/prisma';
 
-export const getAllWorkplaces = async (): Promise<Workplace[]> => {
+export const getAllWorkplaces = async (): Promise<Post[]> => {
   return [];
 
-  return await prisma.workplace.findMany();
+  return await prisma.post.findMany();
 };
 
 export const getWorkplaceById = async (
-  id: string,
-): Promise<Workplace | null> => {
+  id: number,
+): Promise<Post | null> => {
   return null;
 
-  return await prisma.workplace.findUnique({
+  return await prisma.post.findUnique({
     where: {
       id,
     },
   });
 };
 
-export const deleteWorkplaceById = async (id: string): Promise<boolean> => {
-  return !!(await prisma.workplace.delete({
+export const deleteWorkplaceById = async (id: number): Promise<boolean> => {
+  return !!(await prisma.post.delete({
     where: {
       id,
     },
