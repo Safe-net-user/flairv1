@@ -36,9 +36,9 @@ export async function POST(req: NextRequest) {
 
     console.log('Service créé:', service);
 
-    const test =  NextResponse.json(service, { status: 200 });
-    console.log('Service créé:', test);
-    return test
+    // Réponse avec le service créé
+    return NextResponse.json(service, { status: 200 });
+ 
   } catch (error) {
     console.error('Erreur lors de la création du service:', error);
     return NextResponse.json({ error: 'Erreur lors de la création du service.' }, { status: 500 });
