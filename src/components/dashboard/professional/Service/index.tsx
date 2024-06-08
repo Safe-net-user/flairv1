@@ -22,22 +22,32 @@ export default function ServicesTab() {
   const [services, setServices] = useState<Service[]>([]);
   const [sortOption, setSortOption] = useState<string>('');
 
-  useEffect(() => {
-    fetch('/api/service', {
-      method: 'GET'
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/service', {
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
         }
-        return response.json();
-      })
-      .then((data: Service[]) => {
-        console.log('Services fetched:', data);
-        setServices(data);
-      })
-      .catch(error => console.error('Error fetching services:', error));
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setServices(data);
+    } catch (error) {
+      console.error('Error fetching services:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); // Appel initial au chargement
+    const intervalId = setInterval(fetchData, 6000); // Mise à jour toutes les 60 secondes
+
+    return () => clearInterval(intervalId); // Nettoyage de l'intervalle à la suppression du composant
   }, []);
+
 
   const handleSortChange = (event: SelectChangeEvent<string>) => {
     const selectedOption = event.target.value;
