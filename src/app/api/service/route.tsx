@@ -1,8 +1,22 @@
-import { prisma } from "@/lib/prisma";
-import Link from "next/link";
+import Link from 'next/link';
+import React from 'react';
 
-// Fonction pour afficher tous les services
-export default function AllServices({ services }) {
+interface Service {
+  id: string;
+  title: string;
+  category: string;
+  price: string;
+  description: string;
+  dureeRDV: string;
+  domicile: boolean;
+  image: string;
+}
+ 
+interface AllServicesProps {
+  services: Service[];
+}
+
+const AllServices: React.FC<AllServicesProps> = ({ services }) => {
   return (
     <ul>
       {services.map(service => (
@@ -36,25 +50,4 @@ export default function AllServices({ services }) {
   );
 }
 
-// Fonction pour récupérer les services à afficher
-export async function getServerSideProps() {
-  try {
-    // Récupération de tous les services depuis la base de données avec Prisma
-    const services = await prisma.service.findMany();
-
-    // Retourner les services en tant que props
-    return {
-      props: {
-        services,
-      },
-    };
-  } catch (error) {
-    console.error('Erreur lors de la récupération des services:', error);
-    // Retourner une liste vide en cas d'erreur
-    return {
-      props: {
-        services: [],
-      },
-    };
-  }
-}
+export default AllServices;
