@@ -18,10 +18,18 @@ export async function GET(req, res) {
 
     console.log('Services récupérés depuis la base de données:', services);
 
-    // Réponse avec les services récupérés au format JSON
-    res.json(services);
+    // Définition de l'en-tête Content-Type
+    res.setHeader('Content-Type', 'application/json');
+
+    // Envoi des données JSON
+    res.end(JSON.stringify(services));
   } catch (error) {
     console.error('Erreur lors de la récupération des services:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération des services' });
+    
+    // Définition du statut de réponse
+    res.statusCode = 500;
+
+    // Envoi des données d'erreur JSON
+    res.end(JSON.stringify({ error: 'Erreur lors de la récupération des services' }));
   }
 }
