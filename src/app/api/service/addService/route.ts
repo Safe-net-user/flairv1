@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { htmlToText } from 'html-to-text';
 import { prisma } from '@/lib/prisma';
 
+
 // Point de terminaison pour la méthode POST
 export async function POST(req: NextRequest) {
   try {
