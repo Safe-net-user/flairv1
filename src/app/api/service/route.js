@@ -20,9 +20,10 @@ export async function GET(req, res) {
 
     // Réponse avec les services récupérés au format JSON
     res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(services);
+    res.end(JSON.stringify(services));
   } catch (error) {
     console.error('Erreur lors de la récupération des services:', error);
-    res.status(500).json({ error: 'Erreur lors de la récupération des services' });
+    res.statusCode = 500;
+    res.end(JSON.stringify({ error: 'Erreur lors de la récupération des services' }));
   }
 }
