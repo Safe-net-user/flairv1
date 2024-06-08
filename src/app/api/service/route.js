@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 // Fonction pour afficher tous les services
 export default function AllServices({ services }) {
