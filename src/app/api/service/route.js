@@ -19,11 +19,9 @@ export async function GET(req, res) {
     console.log('Services récupérés depuis la base de données:', services);
 
     // Réponse avec les services récupérés au format JSON
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(services));
+    res.json(services);
   } catch (error) {
     console.error('Erreur lors de la récupération des services:', error);
-    res.statusCode = 500;
-    res.end(JSON.stringify({ error: 'Erreur lors de la récupération des services' }));
+    res.status(500).json({ error: 'Erreur lors de la récupération des services' });
   }
 }
