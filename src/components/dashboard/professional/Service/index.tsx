@@ -99,7 +99,7 @@ export default function ServicesTab() {
         </div>
         <Link className="cursor-pointer" style={{ marginLeft: '20px' }} href={'/dashboard/professional/service/addService'}>
           <button className="bg-black text-white flex items-center rounded text-lg cursor-pointer" style={{ padding: '6px' }}>
-            <img className='flex items-center' style={{ marginRight: '10px', marginTop: '-5px', marginBottom: '-5px' }} src="/iconService/plus-2.svg" />Ajouter un service
+            <img className='flex items-center' style={{ marginRight: '10px', marginTop: '-5px', marginBottom: '-5px' }} src="/iconService/plus-2.svg" alt="plus.svg" />Ajouter un service
           </button>
         </Link>
       </div>

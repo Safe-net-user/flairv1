@@ -1,14 +1,12 @@
 'use client';
 
 import type { Service, User } from '@prisma/client';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getProfessionalsByTown, getAllServices } from '@/data/back-up';
 
 import { HeaderSection } from '@/components/shop/layout';
-
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -19,20 +17,6 @@ import {
 } from '@/components/ui/card';
 
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -41,10 +25,6 @@ import {
 } from '@/components/ui/select';
 import { useUserContext } from '@/contexts/user';
 import Subscriptions from '@/components/back-up/Subscriptions';
-
-import { cn } from '@/lib/utils';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { CheckIcon, ChevronsUpDown } from 'lucide-react';
 
 export default function BackUpPage() {
   const { user } = useUserContext();
@@ -60,22 +40,23 @@ export default function BackUpPage() {
         await getProfessionalsByTown(user?.address?.town || 'Paris'),
       );
     })();
-  }, []);
+  }, [user?.address?.town]);
 
-  const disabled = false;
   const handleSelect = (x: any) => setService(x);
 
   return (
     <main>
       <HeaderSection title="Trouvez le professionnel parfait">
-        
-
         <Select onValueChange={(service: string) => setService(service)}>
           <SelectTrigger className="bg-white">
             <SelectValue placeholder="Sélectionner un service" />
           </SelectTrigger>
           <SelectContent>
-            
+            {options.map((service) => (
+              <SelectItem key={service.id} value={service.title}>
+                {service.title}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         <Button
@@ -98,17 +79,16 @@ export default function BackUpPage() {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
             {options.map((service) => (
               <Link
-                href="/"
-                key={''}
-                // href={`/back-up/explore?service=${service.value}`}
+                href={`/back-up/explore?service=${service.title}`}
+                key={service.id}
               >
                 <Card className="flex flex-col items-center">
                   <CardHeader>
                     <Image
                       src={service.image}
                       alt={service.title}
-                      width={0}
-                      height={0}
+                      width={200}
+                      height={200}
                       className="w-full"
                     />
                   </CardHeader>
@@ -135,8 +115,8 @@ export default function BackUpPage() {
                   <Image
                     src={professional.image}
                     alt={professional.enterprise!}
-                    width={0}
-                    height={0}
+                    width={64}
+                    height={64}
                     className="h-16 w-16"
                   />
                 </CardHeader>
@@ -147,9 +127,7 @@ export default function BackUpPage() {
                   <CardDescription>
                     <div className="flex">La position</div>
                     <div className="flex justify-end">
-                      <Link
-                        href={`/back-up/professional/${professional.id}`}
-                      >
+                      <Link href={`/back-up/professional/${professional.id}`}>
                         <Button role="link">Réserver</Button>
                       </Link>
                     </div>

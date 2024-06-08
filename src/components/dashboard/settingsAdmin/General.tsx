@@ -111,7 +111,7 @@ export default function GeneralTab() {
             )}
           />
         
-          <h3 className="mb-4 text-lg font-medium">Informations de l'Administrateur</h3>
+          <h3 className="mb-4 text-lg font-medium">Informations de l&apos;Administrateur</h3>
           <div className="flex flex-col space-y-4 rounded-lg border p-3 shadow-sm">
             <FormField
               control={form.control}
