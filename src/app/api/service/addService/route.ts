@@ -43,32 +43,3 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Point de terminaison pour la méthode GET
-export async function GET(req: NextRequest) {
-  try {
-    // Récupération des services depuis la base de données avec Prisma
-    const services = await prisma.service.findMany({
-      select: {
-        title: true,
-        description: true,
-        category: true,
-        price: true,
-        domicile: true,
-        image: true,
-        dureeRDV: true,
-      },
-      
-    });
-
-    console.log('Services récupérés depuis la base de données:', services);
-
-    // Réponse avec les services récupérés
-    return NextResponse.json(services, { status: 200 });
-  } catch (error) {
-    console.error('Erreur lors de la récupération des services:', error);
-    return NextResponse.json({ error: 'Erreur lors de la récupération des services.' }, { status: 500 });
-  }
-}
-
-// Définition de l'environnement d'exécution
-export const runtime = 'experimental-edge';

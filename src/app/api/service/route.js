@@ -14,15 +14,15 @@ export async function GET(req, res) {
         image: true,
         dureeRDV: true,
       },
-      
     });
 
     console.log('Services récupérés depuis la base de données:', services);
 
-    // Réponse avec les services récupérés
-    return new Response(JSON.stringify(services), { status: 200 });
+    // Réponse avec les services récupérés au format JSON
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(services);
   } catch (error) {
     console.error('Erreur lors de la récupération des services:', error);
-    return new Response(JSON.stringify({ error: 'Erreur lors de la récupération des services' }), { status: 500 });
+    res.status(500).json({ error: 'Erreur lors de la récupération des services' });
   }
 }
