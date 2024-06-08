@@ -20,3 +20,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Erreur lors de la création du post' }, { status: 500 });
   }
 }
+
+export const runtime = 'experimental-edge';
