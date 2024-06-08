@@ -28,6 +28,6 @@
     "**/*.tsx",
     "types/**/*.ts",
     ".next/types/**/*.ts"
-, "src/app/api/service/route.ts", "src/components/dashboard/professional/Service/addService/page.jsx", "src/app/api/service/serveur.js", "src/app/api/post/route.js", "src/app/api/post/get/route.js", "src/app/api/service/route.jsx"  ],
+, "src/app/api/service/route.js", "src/components/dashboard/professional/Service/addService/page.jsx", "src/app/api/service/serveur.js", "src/app/api/post/route.js", "src/app/api/post/get/route.js", "src/app/api/service/route.ts"  ],
   "exclude": ["node_modules"]
 }

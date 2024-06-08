@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
 
     // Création du service dans la base de données avec Prisma
     const service = await prisma.service.create({
+      
       data: {
         title,
         description: descriptionWithoutHtml,
@@ -36,7 +37,9 @@ export async function POST(req: NextRequest) {
     console.log('Service créé:', service);
 
     // Réponse avec le service créé
-    return NextResponse.json(service, { status: 200 });
+    const test =  NextResponse.json(service, { status: 200 });
+    console.log('Service créé:', test);
+    return test
   } catch (error) {
     console.error('Erreur lors de la création du service:', error);
     return NextResponse.json({ error: 'Erreur lors de la création du service.' }, { status: 500 });
