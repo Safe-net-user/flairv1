@@ -42,10 +42,10 @@ export default function ServicesTab() {
   };
 
   useEffect(() => {
-    fetchData(); // Appel initial au chargement
-    const intervalId = setInterval(fetchData, 6000); // Mise à jour toutes les 60 secondes
+    fetchData();
+    const intervalId = setInterval(fetchData, 6000); 
 
-    return () => clearInterval(intervalId); // Nettoyage de l'intervalle à la suppression du composant
+    return () => clearInterval(intervalId); 
   }, []);
 
 
