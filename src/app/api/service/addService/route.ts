@@ -1,48 +1,86 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { htmlToText } from 'html-to-text';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
 
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    try {
+      const services = await prisma.service.findMany({
+        select: {
+          title: true,
+          description: true,
+          category: true,
+          price: true,
+          domicile: true,
+          image: true,
+          dureeRDV: true,
+        },
+      });
 
-// Point de terminaison pour la méthode POST
-export async function POST(req: NextRequest) {
-  try {
-    // Récupération des données du corps de la requête
-    const body = await req.json();
-    const { title, description, category, price, domicile, image, dureeRDV } = body;
+      console.log('Services récupérés depuis la base de données:', services);
 
-    console.log('Données reçues:', body);
+      const servicesArray = services.map(service => ({
+        title: service.title,
+        description: service.description,
+        category: service.category,
+        price: service.price,
+        domicile: service.domicile,
+        image: service.image,
+        dureeRDV: service.dureeRDV,
+      }));
 
-    // Vérification des champs obligatoires
-    if (!title || !description || !category || !price || dureeRDV === undefined) {
-      console.error('Champs requis manquants');
-      return NextResponse.json({ error: 'Champs requis manquants' }, { status: 400 });
+      res.status(200).json(servicesArray);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des services:', error);
+      res.status(500).json({ error: 'Erreur lors de la récupération des services' });
     }
+  } else if (req.method === 'POST') {
+    try {
+      const { title, description, category, price, domicile, image, dureeRDV } = req.body;
 
-    // Conversion du HTML en texte brut
-    const descriptionWithoutHtml = htmlToText(description);
+      const newService = await prisma.service.create({
+        data: {
+          title,
+          description,
+          category,
+          price,
+          domicile,
+          image,
+          dureeRDV,
+        },
+      });
 
-    // Création du service dans la base de données avec Prisma
-    const service = await prisma.service.create({
-      
-      data: {
-        title,
-        description: descriptionWithoutHtml,
-        category,
-        price,
-        domicile,
-        image,
-        dureeRDV,
-      },
-    });
+      console.log('Service ajouté à la base de données:', newService);
 
-    console.log('Service créé:', service);
+      // Après avoir ajouté le nouveau service, récupérez tous les services mis à jour
+      const updatedServices = await prisma.service.findMany({
+        select: {
+          title: true,
+          description: true,
+          category: true,
+          price: true,
+          domicile: true,
+          image: true,
+          dureeRDV: true,
+        },
+      });
 
-    // Réponse avec le service créé
-    return NextResponse.json(service, { status: 200 });
- 
-  } catch (error) {
-    console.error('Erreur lors de la création du service:', error);
-    return NextResponse.json({ error: 'Erreur lors de la création du service.' }, { status: 500 });
+      const updatedServicesArray = updatedServices.map(service => ({
+        title: service.title,
+        description: service.description,
+        category: service.category,
+        price: service.price,
+        domicile: service.domicile,
+        image: service.image,
+        dureeRDV: service.dureeRDV,
+      }));
+
+      res.status(201).json(updatedServicesArray);
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout du service:', error);
+      res.status(500).json({ error: 'Erreur lors de l\'ajout du service' });
+    }
+  } else {
+    res.setHeader('Allow', ['GET', 'POST']);
+    res.status(405).end(`Méthode ${req.method} non autorisée`);
   }
 }
-
